@@ -22,7 +22,8 @@ def start_command(message):
     bot.send_message(  
         message.chat.id,  
         'Hi! I can translate your messages.\n' +  
-        '3 target languages available\n(English, Ukrainian, Russian).' + 
+        '3 target languages available\n' +
+        '(English, Ukrainian, Russian).\n' + 
         'Default target language is English\n'
         'To change language press /change.\n' +  
         'To get help press /help.'  
