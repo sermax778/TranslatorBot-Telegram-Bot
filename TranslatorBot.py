@@ -7,7 +7,7 @@ from google.cloud import translate_v2
 bot = telebot.TeleBot('<bots Token>')
 
 #Important thing for Translator API
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'main folders path'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'<path of transltorApi .json key file>'
 
 
 #Global variables
