@@ -1,22 +1,22 @@
-#Библиотеки
+#Modules
 import telebot
 import os
 from google.cloud import translate_v2
 
-#токен бота
+#Bot's token
 bot = telebot.TeleBot('<bots Token>')
 
-#шняга для работы переводчика
+#Important thing for Translator API
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'main folders path'
 
 
-#глобальные переменные
+#Global variables
 glob_lang = 'en'
 target = 'en'
 langs = ['en', 'uk', 'ru']
 
 
-#команда старт
+#/start command
 @bot.message_handler(commands=['start'])  
 def start_command(message):  
     bot.send_message(  
@@ -28,7 +28,7 @@ def start_command(message):
         'To get help press /help.'  
   )
 
-#команда хелп
+#/help command
 @bot.message_handler(commands=['help'])  
 def help_command(message):  
     keyboard = telebot.types.InlineKeyboardMarkup()  
@@ -46,7 +46,7 @@ def help_command(message):
         reply_markup=keyboard  
     )
 
-#команда для смены языка
+#/change command - for changing language
 @bot.message_handler(commands=['change'])  
 def exchange_command(message):  
     keyboard = telebot.types.InlineKeyboardMarkup()  
@@ -65,8 +65,7 @@ def exchange_command(message):
     )
 
 
-#тут идет какая-то крута хрень, ваще не шарю чо,
-#но в общем что-то типа присвоения кнопкам языков нужных параметров
+#some stuff for value assignment for changing language
 @bot.callback_query_handler(func=lambda call: True)  
 def iq_callback(query):  
     data = query.data  
@@ -77,7 +76,7 @@ def get_ex_callback(query):
     bot.answer_callback_query(query.id)  
     send_exchange_result(query.message, query.data[4:])
 
-#вот именно тут идет присвоение
+#assignment right here
 def send_exchange_result(message, ex_code):  
     bot.send_chat_action(message.chat.id, 'typing')  
     global target
@@ -87,7 +86,7 @@ def send_exchange_result(message, ex_code):
     )
 
 
-#сам перевод сообщений
+#translation of words
 @bot.message_handler(content_types=['text'])
 def send_text(message):
     translate_client = translate_v2.Client()
@@ -100,5 +99,5 @@ def send_text(message):
     bot.send_message(message.chat.id, output['translatedText'])
 
 
-#обновление бота
+#bot updating
 bot.polling(none_stop=True)
